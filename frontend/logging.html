@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html lang="en" data-theme="light">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>C2 ERGATHLON - Logbook</title>
+
+    <link href="css/styles.css" rel="stylesheet"/>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body class="bg-base-200 min-h-screen">
+
+    <div class="container mx-auto p-4">
+
+        <div class="mb-6 flex justify-between">
+
+            <h1 class="text-3xl font-bold">C2 ERGATHLON Logbook</h1>
+
+            <div class="flex items-center space-x-2">
+
+                🌑
+
+                <input type="checkbox" class="toggle toggle-primary" data-toggle-theme="dark,light" data-act-class="pl-4" />
+
+                ☀️
+
+                <a href="index.html" class="btn btn-primary">Calculator</a>
+
+            </div>
+
+        </div>
+
+    </div> 
+
+        
+
+        <!-- Chart Toggle -->
+
+        <div class="form-control mb-4">
+
+            <label class="cursor-pointer label">
+
+                <span class="label-text">Show Chart</span> 
+
+                <input type="checkbox" id="chartToggle" class="toggle toggle-primary" checked />
+
+            </label>
+
+        </div>
+
+
+
+        <!-- Chart Container -->
+
+        <div id="chartContainer" class="bg-base-100 shadow-xl rounded-lg p-6 mb-6 relative min-h-[300px] h-[50vh] w-full">
+
+            <canvas id="logChart"></canvas>
+
+        </div>
+
+
+
+        <!-- Chart Type Selector -->
+
+        <div class="form-control mb-4">
+
+            <label class="label">
+
+                <span class="label-text">Select Data to Display:</span>
+
+            </label>
+
+            <div class="flex flex-wrap gap-2">
+
+                <label class="cursor-pointer label">
+
+                    <span class="label-text mr-2">Bike (1000m)</span> 
+
+                    <input type="checkbox" class="checkbox checkbox-primary" id="showBike" checked />
+
+                </label>
+
+                <label class="cursor-pointer label">
+
+                    <span class="label-text mr-2">Row (500m)</span> 
+
+                    <input type="checkbox" class="checkbox checkbox-primary" id="showRow" checked />
+
+                </label>
+
+                <label class="cursor-pointer label">
+
+                    <span class="label-text mr-2">Ski (500m)</span> 
+
+                    <input type="checkbox" class="checkbox checkbox-primary" id="showSki" checked />
+
+                </label>
+
+                <label class="cursor-pointer label">
+
+                    <span class="label-text mr-2">Total</span> 
+
+                    <input type="checkbox" class="checkbox checkbox-primary" id="showTotal" />
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Log Entry Form -->
+
+<div class="bg-base-100 shadow-xl rounded-lg p-6 mb-6">
+
+    <h2 class="text-xl font-semibold mb-4">Add New Entry</h2>
+
+    <form id="logForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <div class="form-control">
+
+            <label class="label" for="logDate">Date</label>
+
+            <input type="date" id="logDate" class="input input-bordered" required>
+
+        </div>
+
+        <div class="form-control">
+
+            <label class="label" for="logBikePace">Bike Pace (1000m)</label>
+
+            <input type="text" id="logBikePace" placeholder="MM:SS" class="input input-bordered" required>
+
+        </div>
+
+        <div class="form-control">
+
+            <label class="label" for="logBikeDistance">Bike Distance (m)</label>
+
+            <input type="number" id="logBikeDistance" placeholder="Meters" class="input input-bordered" required>
+
+        </div>
+
+        <div class="form-control">
+
+            <label class="label" for="logRowPace">Row Pace (500m)</label>
+
+            <input type="text" id="logRowPace" placeholder="MM:SS.s" class="input input-bordered" required>
+
+        </div>
+
+        <div class="form-control">
+
+            <label class="label" for="logRowDistance">Row Distance (m)</label>
+
+            <input type="number" id="logRowDistance" placeholder="Meters" class="input input-bordered" required>
+
+        </div>
+
+        <div class="form-control">
+
+            <label class="label" for="logSkiPace">Ski Pace (500m)</label>
+
+            <input type="text" id="logSkiPace" placeholder="MM:SS.s" class="input input-bordered" required>
+
+        </div>
+
+        <div class="form-control">
+
+            <label class="label" for="logSkiDistance">Ski Distance (m)</label>
+
+            <input type="number" id="logSkiDistance" placeholder="Meters" class="input input-bordered" required>
+
+        </div>
+
+        <div class="form-control">
+
+            <label class="label" for="logTotalTime">Total Time</label>
+
+            <input type="text" id="logTotalTime" placeholder="HH:MM:SS" class="input input-bordered" readonly>
+
+        </div>
+
+        <div class="form-control">
+
+            <label class="label" for="logComments">Comments</label>
+
+            <textarea id="logComments" class="textarea textarea-bordered" placeholder="Optional comments"></textarea>
+
+        </div>
+
+        <div class="col-span-full">
+
+            <button type="submit" class="btn btn-primary w-full">Add Entry</button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+
+        <!-- Log Entries Table -->
+
+        <div class="bg-base-100 shadow-xl rounded-lg p-6">
+
+            <h2 class="text-xl font-semibold mb-4">Log Entries</h2>
+
+            <div class="overflow-x-auto">
+
+                <table class="table table-zebra w-full">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Bike Pace</th>
+
+                            <th>Row Pace</th>
+
+                            <th>Ski Pace</th>
+
+                            <th>Total Time</th>
+
+                            <th>Comments</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="logEntriesBody">
+
+                        <!-- Log entries will be dynamically inserted here -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="js/logging.js"></script>
+
+</body>
+
+</html>

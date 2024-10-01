@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="en" data-theme="dark">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>C2 ERGATHLON - Quick Glance</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+
+</head>
+
+<body class="bg-base-200 min-h-screen">
+
+    <div class="container mx-auto p-4">
+
+        <div class="mb-6 flex justify-between items-center">
+
+            <h1 class="text-3xl font-bold">C2 ERGATHLON Calculator</h1>
+
+            <div class="flex items-center space-x-2">
+
+                🌑
+
+                <input type="checkbox" class="toggle toggle-primary" data-toggle-theme="dark,light" data-act-class="pl-4" />
+
+                ☀️
+
+                <a href="logging.html" class="btn btn-primary ml-4">Logbook</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+        <!-- Warning Modal -->
+
+        <div id="warningModal" class="modal">
+
+            <div class="modal-box">
+
+            <h3 class="font-bold text-lg">Invalid Input</h3>
+
+            <p id="warningMessage" class="py-4"></p>
+
+            <div class="modal-action">
+
+                <button id="closeWarningModal" class="btn">Close</button>
+
+            </div>
+
+            </div>
+
+        </div>
+
+        
+
+        <!-- Input Form -->
+
+        <div class="bg-base-100 shadow-xl rounded-lg p-6 mb-6">
+
+            <h2 class="text-xl font-semibold mb-4">Input Parameters</h2>
+
+            <form id="inputForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div class="form-control">
+
+                    <label class="label" for="skiDistance">Ski Distance (m)</label>
+
+                    <input type="number" id="skiDistance" placeholder="Meters" class="input input-bordered" required>
+
+                </div>
+
+                <div class="form-control">
+
+                    <label class="label" for="skiPace">Ski Pace (500m)</label>
+
+                    <input type="text" id="skiPace" placeholder="MM:SS.s" class="input input-bordered" required>
+
+                </div>
+
+                <div class="form-control">
+
+                    <label class="label" for="rowDistance">Row Distance (m)</label>
+
+                    <input type="number" id="rowDistance" placeholder="Meters" class="input input-bordered" required>
+
+                </div>
+
+                <div class="form-control">
+
+                    <label class="label" for="rowPace">Row Pace (500m)</label>
+
+                    <input type="text" id="rowPace" placeholder="MM:SS.s" class="input input-bordered" required>
+
+                </div>
+
+                <div class="form-control">
+
+                    <label class="label" for="bikeDistance">Bike Distance (m)</label>
+
+                    <input type="number" id="bikeDistance" placeholder="Meters" class="input input-bordered" required>
+
+                </div>
+
+                <div class="form-control">
+
+                    <label class="label" for="bikePace">Bike Pace (1000m)</label>
+
+                    <input type="text" id="bikePace" placeholder="MM:SS.s" class="input input-bordered" required>
+
+                </div>
+
+                <div class="form-control">
+
+                    <label class="label" for="paceDrop1">Pace Drop (Rows 1-5)</label>
+
+                    <input type="number" id="paceDrop1" placeholder="Seconds" class="input input-bordered" required>
+
+                </div>
+
+                <div class="form-control">
+
+                    <label class="label" for="paceDrop2">Pace Drop (Rows 6-10)</label>
+
+                    <input type="number" id="paceDrop2" placeholder="Seconds" class="input input-bordered" required>
+
+                </div>
+
+                <div class="col-span-2">
+
+                    <button type="submit" class="btn btn-primary w-full">Calculate</button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        
+
+        <!-- Results Table -->
+
+        <div class="bg-base-100 shadow-xl rounded-lg p-6">
+
+            <div class="flex justify-between items-center mb-4">
+
+                <h2 class="text-xl font-semibold">Results</h2>
+
+                <div class="form-control">
+
+                    <label class="label cursor-pointer">
+
+                        <span class="label-text mr-2">Verbose Time</span> 
+
+                        <input type="checkbox" class="toggle toggle-primary" id="timeFormatToggle" />
+
+                    </label>
+
+                </div>
+
+                <button id="printButton" class="btn btn-ghost btn-circle">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+
+                    </svg>
+
+                </button>
+
+            </div>
+
+            <div class="overflow-x-auto" id="resultsTable">
+
+                <table class="table table-zebra w-full">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Row</th>
+
+                            <th>Ski Pace</th>
+
+                            <th>Row Pace</th>
+
+                            <th>Bike Pace</th>
+
+                            <th>Total Time</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="resultsBody">
+
+                        <!-- Results will be dynamically inserted here -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="js/calculations.js"></script>
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #resultsTable {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  #resultsTable * {
+    visibility: visible;
+  }
+}
+
+.time-value {
+  font-weight: 500;
+}
+
+.time-unit {
+  font-weight: normal;
+  font-size: 0.7rem;
+  color: #6c6f72;
+}
