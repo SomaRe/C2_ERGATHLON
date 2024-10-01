@@ -1,3 +1,66 @@
+let chart;
+let logEntries = [];
+
+window.addEventListener('pywebviewready', function() {
+  console.log('PyWebviewReady');
+    initializePage();
+});
+
+function initializePage() {
+  // Initialize form elements
+  const logForm = document.getElementById('logForm');
+  const logBikePaceInput = document.getElementById('logBikePace');
+  const logRowPaceInput = document.getElementById('logRowPace');
+  const logSkiPaceInput = document.getElementById('logSkiPace');
+  const logBikeDistanceInput = document.getElementById('logBikeDistance');
+  const logRowDistanceInput = document.getElementById('logRowDistance');
+  const logSkiDistanceInput = document.getElementById('logSkiDistance');
+  const logTotalTimeInput = document.getElementById('logTotalTime');
+
+  // Add event listeners
+  logForm.addEventListener('submit', handleFormSubmit);
+  document.getElementById('chartToggle').addEventListener('change', toggleChart);
+  document.getElementById('showBike').addEventListener('change', updateChart);
+  document.getElementById('showRow').addEventListener('change', updateChart);
+  document.getElementById('showSki').addEventListener('change', updateChart);
+  document.getElementById('showTotal').addEventListener('change', updateChart);
+
+  // Input event listeners for real-time total time calculation
+  [logBikePaceInput, logRowPaceInput, logSkiPaceInput, 
+   logBikeDistanceInput, logRowDistanceInput, logSkiDistanceInput].forEach(input => {
+      input.addEventListener('input', calculateTotalTime);
+  });
+
+  function convertToSeconds(time) {
+    if (!time) return 0;
+    
+    // Split the time string into parts
+    const parts = time.split(':');
+    
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+    
+    // Parse the parts based on how many we have
+    if (parts.length === 3) {
+      // HH:MM:SS or HH:MM:SS.s format
+      hours = parseInt(parts[0], 10);
+      minutes = parseInt(parts[1], 10);
+      seconds = parseFloat(parts[2]);
+    } else if (parts.length === 2) {
+      // MM:SS or MM:SS.s format
+      minutes = parseInt(parts[0], 10);
+      seconds = parseFloat(parts[1]);
+    } else if (parts.length === 1) {
+      // SS or SS.s format
+      seconds = parseFloat(parts[0]);
+    }
+  
+    // Convert everything to seconds and return
+    return (hours * 3600) + (minutes * 60) + seconds;
+  }
+  
+
 function calculateActivityTime(pace, distance, unitDistance) {
 
     const paceSeconds = convertPaceToSeconds(pace);
@@ -45,6 +108,22 @@ function calculateActivityTime(pace, distance, unitDistance) {
         ],
       },
       options: {
+        plugins: {
+          zoom: {
+            zoom: {
+              mode: "x",
+              wheel: {
+                enabled: true,
+                modifierKey: "alt",
+              },
+              pan: {
+                enabled: true,
+                mode: "xy",
+                modifierKey: "ctrl",
+              },
+            },
+          }
+        },
         responsive: true,
         maintainAspectRatio: false,
         scales: {
@@ -134,6 +213,11 @@ function calculateActivityTime(pace, distance, unitDistance) {
     logTotalTimeInput.value = totalSeconds > 0 ? formatTime(totalSeconds) : "";
   }
 
+  function toggleChart() {
+    const chartContainer = document.getElementById('chartContainer');
+    chartContainer.style.display = this.checked ? 'block' : 'none';
+}
+
   function addLogEntry() {
     const entry = {
       date: document.getElementById("logDate").value,
@@ -162,3 +246,31 @@ function calculateActivityTime(pace, distance, unitDistance) {
       updateChart();
     });
   }
+
+  function deleteEntry(id) {
+    window.pywebview.api.delete_log_entry(id).then((updatedEntries) => {
+        logEntries = updatedEntries;
+        renderLogEntries();
+        updateChart();
+    });
+}
+
+function isValidPaceFormat(pace) {
+  return /^\d{1,2}:\d{2}(.\d+)?$/.test(pace);
+}
+
+function formatTime(totalSeconds) {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+  addLogEntry();
+}
+
+loadEntries();
+initChart();
+}

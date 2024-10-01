@@ -7,7 +7,8 @@
  - Input parameters for personalized calculations.
  - Dynamic generation of data rows with adjustable paces and times.
  - Download PDF of table
- - 
+ 
+  
  ### Logging Page
  - Log entries for times, dates, and runs.
  - Option to add comments or notes.
@@ -64,7 +65,11 @@
  - Dynamic generation of data rows with adjustable paces and times.
  - Download PDF of table.
  
- [Space for Quick Glance Page Image]
+ ![quick1](data/quick1.png)
+
+ ![quick2](data/quick2.png)
+
+ ![quick3](data/quick3.png)
  
  ### Logging Page
  
@@ -73,7 +78,9 @@
  - View logged data in a tabular format.
  - Interactive progress graphs displaying performance over time.
  
- [Space for Logging Page Image]
+ ![log1](data/log1.png)
+
+ ![log2](data/log2.png)
  
  ## Technical Stack
  

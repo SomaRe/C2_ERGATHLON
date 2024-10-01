@@ -5,6 +5,7 @@ from backend.database import init_db, add_entry, get_entries, delete_entry
 
 class Api:
     def __init__(self):
+        
         init_db()
 
     def add_log_entry(self, entry):
@@ -34,4 +35,4 @@ if __name__ == '__main__':
     window = webview.create_window(
         'C2 ERGATHLON', html_file, js_api=api, width=1000, height=1000)
 
-    webview.start()
+    webview.start(debug=True)

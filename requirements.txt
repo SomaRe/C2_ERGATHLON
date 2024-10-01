@@ -1,4 +1,3 @@
 pywebview
 sqlalchemy
 pyinstaller
-pywin32
